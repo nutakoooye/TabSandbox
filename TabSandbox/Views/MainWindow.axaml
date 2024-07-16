@@ -1,0 +1,66 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:TabSandbox.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="TabSandbox.Views.MainWindow"
+        x:DataType="vm:MainWindowViewModel"
+        Icon="/Assets/avalonia-logo.ico"
+        Title="TabSandbox">
+    
+    <Window.DataContext>
+        <vm:MainWindowViewModel />
+    </Window.DataContext>
+    <StackPanel x:DataType="vm:MainWindowViewModel">
+        <Grid RowDefinitions="Auto *">
+            <ListBox ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+                     Grid.Row="0"
+                     ItemsSource="{Binding Tabs}"
+                     Background="Transparent">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Grid ColumnDefinitions="*,Auto"
+                              ToolTip.Tip="{Binding Title}"
+                              ToolTip.ShowDelay="0"
+                              Width="100">
+                            <TextBlock Grid.Column="0"
+                                       Text="{Binding Title}"
+                                       VerticalAlignment="Center"/>
+                            <Button Grid.Column="1"
+                                    Classes="rounded"
+                                    Command="{Binding $parent[Window].((vm:MainWindowViewModel)DataContext).CloseTabCommand}"
+                                    CommandParameter="{Binding}">
+                                <PathIcon Data="{DynamicResource CloseIcon}" />
+                            </Button>
+                        </Grid>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+                <ListBox.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal" />
+                    </ItemsPanelTemplate>
+                </ListBox.ItemsPanel>
+            </ListBox>
+            <Grid.Resources>
+                <StreamGeometry x:Key="CloseIcon">m 10.2114 11.6236 c 0.2929 0.2928 0.7677 0.2928 1.0606 0 c 0.2929 -0.2929 0.2929 -0.7678 0 -1.0607 L 7.55973 6.85059 L 11.272 3.13828 c 0.2929 -0.2929 0.2929 -0.76777 0 -1.06066 c -0.2929 -0.2929 -0.7677 -0.2929 -1.0606 0 L 6.49907 5.78993 L 2.78676 2.07762 c -0.2929 -0.2929 -0.76777 -0.2929 -1.06066 0 c -0.2929 0.29289 -0.2929 0.76776 0 1.06066 L 5.43841 6.85059 L 1.7261 10.5629 c -0.2929 0.2929 -0.2929 0.7678 0 1.0607 c 0.29289 0.2928 0.76776 0.2928 1.06066 0 L 6.49907 7.91125 Z</StreamGeometry>
+            </Grid.Resources>
+            
+            <Grid.Styles>
+                <Style Selector="Button.rounded">
+                    <Setter Property="CornerRadius" Value="6" />
+                    <Setter Property="Padding" Value="5" />
+                    <Setter Property="Margin" Value="0" />
+                    <Setter Property="Background" Value="Transparent" />
+                    <Style Selector="^ PathIcon">
+                        <Setter Property="Height" Value="10" />
+                        <Setter Property="Width" Value="10" />
+                        <Setter Property="Foreground" Value="{DynamicResource IconBackgroundColor}" />
+                    </Style>
+                </Style>
+            </Grid.Styles>
+            
+        </Grid>
+    </StackPanel>
+
+</Window>
